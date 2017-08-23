@@ -335,11 +335,11 @@ class UsersController extends Controller {
 
 		$name = $user->id . '.' . $file->getClientOriginalExtension();
 
-		$path = 'images/profile';
+		$path = 'images';
 
-		if(!File::exists($path)) {
-			File::makeDirectory($path);	
-		}
+		if(!file_exists($path)) {
+			mkdir($path);	
+		}	
 
 		$file->move($path, $name);
 
@@ -349,7 +349,8 @@ class UsersController extends Controller {
 	}
 
 	public function getImage($id) {
-		return response()->file(User::findOrFail($id)->image);
+		$path = 'images/' . $id . '.png';
+		return response()->download($path);
 	}
 
 	public function delete() {
